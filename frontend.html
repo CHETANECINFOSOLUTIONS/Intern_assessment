@@ -261,129 +261,124 @@ var PARTS = {
 };
 
 var Q = [
-/* ─────────── PART 1 · predict the output ─────────── */
-{ id:"Q1", part:1, ask:"What does this print?", code:
-"const nums = [1, 2, 3, 4];\nconst a = nums.map(n => n * 2);\nconst b = nums.filter(n => n > 2);\nnums.push(5);\nconsole.log(a.length, b.length, nums.length);",
-  opts:["4 2 5","5 2 5","4 2 4","5 3 5"] },
+{ id:"Q1", part:1, k:"4c35ae49", ask:"What does this print?", code:
+"const nums = [1, 2, 3, 4];\nconst a = nums.map(n => n * 2);\nconst b = nums.filter(n => n > 2);\nnums.push(5);\nconsole.log(a.length, b.length, nums.length);", opts:["4 2 4",
+  "5 3 5",
+  "5 2 5",
+  "4 2 5"] },
 
-{ id:"Q2", part:1, core:true, ask:"What does this print?", code:
-"const user = { name: \"Asha\", tags: [\"a\"] };\nconst copy = { ...user };\ncopy.name = \"Ravi\";\ncopy.tags.push(\"b\");\nconsole.log(user.name, user.tags.length);",
-  opts:["Asha 2","Asha 1","Ravi 2","Ravi 1"] },
+{ id:"Q2", part:1, core:true, k:"0b92a74a", ask:"What does this print?", code:
+"const user = { name: \"Asha\", tags: [\"a\"] };\nconst copy = { ...user };\ncopy.name = \"Ravi\";\ncopy.tags.push(\"b\");\nconsole.log(user.name, user.tags.length);", opts:["Asha 2",
+  "Ravi 2",
+  "Asha 1",
+  "Ravi 1"] },
 
-{ id:"Q3", part:1, core:true, ask:"What does this print, and what would it print with <span class=\"mono\">let</span> instead of <span class=\"mono\">var</span>?", code:
-"const fns = [];\nfor (var i = 0; i < 3; i++) {\n  fns.push(() => i);\n}\nconsole.log(fns.map(f => f()));",
-  opts:["[3, 3, 3]   then   [0, 1, 2]","[0, 1, 2]   then   [0, 1, 2]","[3, 3, 3]   then   [3, 3, 3]","[0, 1, 2]   then   [3, 3, 3]"] },
+{ id:"Q3", part:1, core:true, k:"7808c043", ask:"What does this print, and what would it print with <span class=\"mono\">let</span> instead of <span class=\"mono\">var</span>?", code:
+"const fns = [];\nfor (var i = 0; i < 3; i++) {\n  fns.push(() => i);\n}\nconsole.log(fns.map(f => f()));", opts:["[0, 1, 2]   then   [0, 1, 2]",
+  "[0, 1, 2]   then   [3, 3, 3]",
+  "[3, 3, 3]   then   [0, 1, 2]",
+  "[3, 3, 3]   then   [3, 3, 3]"] },
 
-{ id:"Q4", part:1, ask:"In what order do these print?", code:
-"console.log(\"A\");\nsetTimeout(() => console.log(\"B\"), 0);\nPromise.resolve().then(() => console.log(\"C\"));\nconsole.log(\"D\");",
-  opts:["A D C B","A B C D","A D B C","A C D B"] },
+{ id:"Q4", part:1, k:"74d86303", ask:"In what order do these print?", code:
+"console.log(\"A\");\nsetTimeout(() => console.log(\"B\"), 0);\nPromise.resolve().then(() => console.log(\"C\"));\nconsole.log(\"D\");", opts:["A D C B",
+  "A C D B",
+  "A D B C",
+  "A B C D"] },
 
-{ id:"Q5", part:1, ask:"What do the two lines log?", code:
-"async function getValue() {\n  return 1;\n}\nconsole.log(getValue());\ngetValue().then(v => console.log(v));",
-  opts:["a Promise object,  then  1","1,  then  1","undefined,  then  1","a Promise object,  then  a Promise object"] },
+{ id:"Q5", part:1, k:"e19efca3", ask:"What do the two lines log?", code:
+"async function getValue() {\n  return 1;\n}\nconsole.log(getValue());\ngetValue().then(v => console.log(v));", opts:["undefined,  then  1",
+  "a Promise object,  then  a Promise object",
+  "1,  then  1",
+  "a Promise object,  then  1"] },
 
-{ id:"Q6", part:1, ask:"What does this print?", code:
-"const u = { profile: null };\nconsole.log(u.profile?.name);\nconsole.log(u.profile?.name ?? \"anon\");\nconsole.log(u.settings?.theme);",
-  opts:["undefined\nanon\nundefined","TypeError on the first line","null\nanon\nundefined","undefined\nanon\nTypeError"] },
+{ id:"Q6", part:1, k:"ce9945fd", ask:"What does this print?", code:
+"const u = { profile: null };\nconsole.log(u.profile?.name);\nconsole.log(u.profile?.name ?? \"anon\");\nconsole.log(u.settings?.theme);", opts:["undefined\nanon\nundefined",
+  "null\nanon\nundefined",
+  "TypeError on the first line",
+  "undefined\nanon\nTypeError"] },
 
-{ id:"Q7", part:1, core:true, ask:"What does this print?", code:
-"const items = [];\nconsole.log(items.length && \"has items\");\nconsole.log(items.length > 0 && \"has items\");",
-  opts:["0\nfalse","false\nfalse","undefined\nfalse","0\n0"] },
+{ id:"Q7", part:1, core:true, k:"b627f903", ask:"What does this print?", code:
+"const items = [];\nconsole.log(items.length && \"has items\");\nconsole.log(items.length > 0 && \"has items\");", opts:["false\nfalse",
+  "0\n0",
+  "0\nfalse",
+  "undefined\nfalse"] },
 
-{ id:"Q8", part:1, ask:"What does this print?", code:
-"const users = [{ id: 1 }, { id: 2 }];\nconsole.log(users.find(u => u.id === 2));\nconsole.log(users.filter(u => u.id === 2));\nconsole.log(users.find(u => u.id === 9));",
-  opts:["{ id: 2 }\n[ { id: 2 } ]\nundefined","{ id: 2 }\n{ id: 2 }\nundefined","[ { id: 2 } ]\n[ { id: 2 } ]\n[]","{ id: 2 }\n[ { id: 2 } ]\nnull"] },
+{ id:"Q8", part:1, k:"51f3d139", ask:"What does this print?", code:
+"const users = [{ id: 1 }, { id: 2 }];\nconsole.log(users.find(u => u.id === 2));\nconsole.log(users.filter(u => u.id === 2));\nconsole.log(users.find(u => u.id === 9));", opts:["{ id: 2 }\n[ { id: 2 } ]\nundefined",
+  "{ id: 2 }\n[ { id: 2 } ]\nnull",
+  "[ { id: 2 } ]\n[ { id: 2 } ]\n[]",
+  "{ id: 2 }\n{ id: 2 }\nundefined"] },
 
-{ id:"Q9", part:1, core:true, ask:"What does this print?", code:
-"const a = { x: 1 };\nconst b = { x: 1 };\nconsole.log(a === b);\nconsole.log(a === { ...a });",
-  opts:["false\nfalse","true\ntrue","false\ntrue","true\nfalse"] },
+{ id:"Q9", part:1, core:true, k:"b14b9512", ask:"What does this print?", code:
+"const a = { x: 1 };\nconst b = { x: 1 };\nconsole.log(a === b);\nconsole.log(a === { ...a });", opts:["false\ntrue",
+  "true\nfalse",
+  "true\ntrue",
+  "false\nfalse"] },
 
-{ id:"Q10", part:1, ask:"The user has typed <span class=\"mono\">5</span> into the box. What does this print?", code:
-"const input = document.querySelector(\"#qty\");\nconsole.log(input.value + 1);\nconsole.log(Number(input.value) + 1);",
-  opts:["51\n6","6\n6","51\n51","NaN\n6"] },
+{ id:"Q10", part:1, k:"524cb6fa", ask:"The user has typed <span class=\"mono\">5</span> into the box. What does this print?", code:
+"const input = document.querySelector(\"#qty\");\nconsole.log(input.value + 1);\nconsole.log(Number(input.value) + 1);", opts:["51\n51",
+  "NaN\n6",
+  "6\n6",
+  "51\n6"] },
 
-/* ─────────── PART 2 · pick the code that works ─────────── */
-{ id:"Q11", part:2, ask:"<span class=\"mono\">orders</span> is an array of <span class=\"mono\">{ id, total, status }</span>. Which expression returns the total value of the orders whose status is <span class=\"mono\">\"paid\"</span>, and returns <span class=\"mono\">0</span> for an empty array?",
-  opts:[
-"orders\n  .filter(o => o.status === \"paid\")\n  .reduce((sum, o) => sum + o.total, 0)",
-"orders\n  .filter(o => o.status === \"paid\")\n  .reduce((sum, o) => sum + o.total)",
-"orders\n  .reduce((sum, o) => sum + o.total, 0)",
-"orders\n  .map(o => o.status === \"paid\" ? o.total : 0)"] },
+{ id:"Q11", part:2, k:"5a999d91", ask:"<span class=\"mono\">orders</span> is an array of <span class=\"mono\">{ id, total, status }</span>. Which expression returns the total value of the orders whose status is <span class=\"mono\">\"paid\"</span>, and returns <span class=\"mono\">0</span> for an empty array?", opts:["orders\n  .reduce((sum, o) => sum + o.total, 0)",
+  "orders\n  .filter(o => o.status === \"paid\")\n  .reduce((sum, o) => sum + o.total)",
+  "orders\n  .filter(o => o.status === \"paid\")\n  .reduce((sum, o) => sum + o.total, 0)",
+  "orders\n  .map(o => o.status === \"paid\" ? o.total : 0)"] },
 
-{ id:"Q12", part:2, core:true, ask:"Which expression returns a <b>new</b> state with the theme changed to <span class=\"mono\">\"dark\"</span>, leaving the original untouched and keeping everything else?", code:
-"const state = {\n  user: { name: \"Asha\", prefs: { theme: \"light\", lang: \"en\" } },\n  items: [1, 2, 3]\n};",
-  opts:[
-"{\n  ...state,\n  user: {\n    ...state.user,\n    prefs: { ...state.user.prefs, theme: \"dark\" }\n  }\n}",
-"{\n  ...state,\n  user: {\n    ...state.user,\n    prefs: { theme: \"dark\" }\n  }\n}",
-"{\n  ...state,\n  user: {\n    prefs: { ...state.user.prefs, theme: \"dark\" }\n  }\n}",
-"(() => {\n  state.user.prefs.theme = \"dark\";\n  return { ...state };\n})()"] },
+{ id:"Q12", part:2, core:true, k:"48594cfb", ask:"Which expression returns a <b>new</b> state with the theme changed to <span class=\"mono\">\"dark\"</span>, leaving the original untouched and keeping everything else?", code:
+"const state = {\n  user: { name: \"Asha\", prefs: { theme: \"light\", lang: \"en\" } },\n  items: [1, 2, 3]\n};", opts:["{\n  ...state,\n  user: {\n    ...state.user,\n    prefs: { theme: \"dark\" }\n  }\n}",
+  "{\n  ...state,\n  user: {\n    ...state.user,\n    prefs: { ...state.user.prefs, theme: \"dark\" }\n  }\n}",
+  "(() => {\n  state.user.prefs.theme = \"dark\";\n  return { ...state };\n})()",
+  "{\n  ...state,\n  user: {\n    prefs: { ...state.user.prefs, theme: \"dark\" }\n  }\n}"] },
 
-{ id:"Q13", part:2, ask:"Which version returns the parsed user on success and throws an error carrying the status code when the request fails?",
-  opts:[
-"async function getUser(id) {\n  const res = await fetch(`/api/users/${id}`);\n  if (!res.ok) throw new Error(`Failed: ${res.status}`);\n  return res.json();\n}",
-"async function getUser(id) {\n  const res = await fetch(`/api/users/${id}`);\n  return res.json();\n}",
-"async function getUser(id) {\n  const res = fetch(`/api/users/${id}`);\n  if (!res.ok) throw new Error(`Failed: ${res.status}`);\n  return res.json();\n}",
-"async function getUser(id) {\n  try {\n    const res = await fetch(`/api/users/${id}`);\n    return res.json();\n  } catch (e) {\n    return null;\n  }\n}"] },
+{ id:"Q13", part:2, k:"2612f35e", ask:"Which version returns the parsed user on success and throws an error carrying the status code when the request fails?", opts:["async function getUser(id) {\n  const res = await fetch(`/api/users/${id}`);\n  if (!res.ok) throw new Error(`Failed: ${res.status}`);\n  return res.json();\n}",
+  "async function getUser(id) {\n  const res = fetch(`/api/users/${id}`);\n  if (!res.ok) throw new Error(`Failed: ${res.status}`);\n  return res.json();\n}",
+  "async function getUser(id) {\n  try {\n    const res = await fetch(`/api/users/${id}`);\n    return res.json();\n  } catch (e) {\n    return null;\n  }\n}",
+  "async function getUser(id) {\n  const res = await fetch(`/api/users/${id}`);\n  return res.json();\n}"] },
 
-{ id:"Q14", part:2, ask:"<span class=\"mono\">posts</span> is an array of <span class=\"mono\">{ id, tags }</span> where <span class=\"mono\">tags</span> is an array of strings. Which expression returns every unique tag, sorted alphabetically?",
-  opts:[
-"[...new Set(posts.flatMap(p => p.tags))].sort()",
-"posts.flatMap(p => p.tags).sort()",
-"[...new Set(posts.map(p => p.tags))].sort()",
-"posts\n  .flatMap(p => p.tags)\n  .filter((t, i, all) => all.indexOf(t) === i)"] },
+{ id:"Q14", part:2, k:"1e4a3faf", ask:"<span class=\"mono\">posts</span> is an array of <span class=\"mono\">{ id, tags }</span> where <span class=\"mono\">tags</span> is an array of strings. Which expression returns every unique tag, sorted alphabetically?", opts:["[...new Set(posts.map(p => p.tags))].sort()",
+  "posts\n  .flatMap(p => p.tags)\n  .filter((t, i, all) => all.indexOf(t) === i)",
+  "posts.flatMap(p => p.tags).sort()",
+  "[...new Set(posts.flatMap(p => p.tags))].sort()"] },
 
-{ id:"Q15", part:2, ask:"<span class=\"mono\">people</span> is an array of <span class=\"mono\">{ name, dept }</span>. Which expression returns <span class=\"mono\">{ eng: [\"Asha\", \"Ravi\"], design: [\"Meera\"] }</span>?",
-  opts:[
-"people.reduce((acc, p) => {\n  (acc[p.dept] = acc[p.dept] || []).push(p.name);\n  return acc;\n}, {})",
-"people.reduce((acc, p) => {\n  acc[p.dept] = [p.name];\n  return acc;\n}, {})",
-"people.reduce((acc, p) => {\n  acc[p.dept] = p.name;\n  return acc;\n}, {})",
-"people.map(p => ({ [p.dept]: p.name }))"] },
+{ id:"Q15", part:2, k:"353bfea1", ask:"<span class=\"mono\">people</span> is an array of <span class=\"mono\">{ name, dept }</span>. Which expression returns <span class=\"mono\">{ eng: [\"Asha\", \"Ravi\"], design: [\"Meera\"] }</span>?", opts:["people.reduce((acc, p) => {\n  acc[p.dept] = p.name;\n  return acc;\n}, {})",
+  "people.reduce((acc, p) => {\n  acc[p.dept] = [p.name];\n  return acc;\n}, {})",
+  "people.reduce((acc, p) => {\n  (acc[p.dept] = acc[p.dept] || []).push(p.name);\n  return acc;\n}, {})",
+  "people.map(p => ({ [p.dept]: p.name }))"] },
 
-{ id:"Q16", part:2, ask:"Which one is a correct <span class=\"mono\">debounce</span> &mdash; it calls <span class=\"mono\">fn</span> only once the returned function has stopped being called for <span class=\"mono\">ms</span>?",
-  opts:[
-"function debounce(fn, ms) {\n  let t;\n  return (...args) => {\n    clearTimeout(t);\n    t = setTimeout(() => fn(...args), ms);\n  };\n}",
-"function debounce(fn, ms) {\n  let t;\n  return (...args) => {\n    t = setTimeout(() => fn(...args), ms);\n  };\n}",
-"function debounce(fn, ms) {\n  let t;\n  return (...args) => {\n    if (!t) t = setTimeout(() => fn(...args), ms);\n  };\n}",
-"function debounce(fn, ms) {\n  let t;\n  return (...args) => {\n    t = setTimeout(() => fn(...args), ms);\n    clearTimeout(t);\n  };\n}"] },
+{ id:"Q16", part:2, k:"98116f82", ask:"Which one is a correct <span class=\"mono\">debounce</span> &mdash; it calls <span class=\"mono\">fn</span> only once the returned function has stopped being called for <span class=\"mono\">ms</span>?", opts:["function debounce(fn, ms) {\n  let t;\n  return (...args) => {\n    t = setTimeout(() => fn(...args), ms);\n  };\n}",
+  "function debounce(fn, ms) {\n  let t;\n  return (...args) => {\n    clearTimeout(t);\n    t = setTimeout(() => fn(...args), ms);\n  };\n}",
+  "function debounce(fn, ms) {\n  let t;\n  return (...args) => {\n    t = setTimeout(() => fn(...args), ms);\n    clearTimeout(t);\n  };\n}",
+  "function debounce(fn, ms) {\n  let t;\n  return (...args) => {\n    if (!t) t = setTimeout(() => fn(...args), ms);\n  };\n}"] },
 
-/* ─────────── PART 3 · read it and reason ─────────── */
-{ id:"Q17", part:3, ask:"A product page has a search box and a category dropdown. Applying both is supposed to narrow the results, but instead almost everything stays on screen. What is wrong?", code:
-"function visible(p, term, cat) {\n  return p.name.toLowerCase().includes(term)\n      || (!cat || p.category === cat);\n}",
-  prose:true,
-  opts:[
-"The || should be &&. As written, a product shows if it matches either condition, so the two filters widen the results instead of narrowing them.",
-"includes should be startsWith, so partial matches are letting too much through.",
-"!cat is wrong — it should be cat === \"\", because an empty string is not falsy.",
-"Nothing is wrong with this function; the bug must be in how the results are rendered."] },
+{ id:"Q17", part:3, prose:true, k:"ac33598a", ask:"A product page has a search box and a category dropdown. Applying both is supposed to narrow the results, but instead almost everything stays on screen. What is wrong?", code:
+"function visible(p, term, cat) {\n  return p.name.toLowerCase().includes(term)\n      || (!cat || p.category === cat);\n}", opts:["The || should be &&. As written, a product shows if it matches either condition, so the two filters widen the results instead of narrowing them.",
+  "!cat is wrong — it should be cat === \"\", because an empty string is not falsy.",
+  "Nothing is wrong with this function; the bug must be in how the results are rendered.",
+  "includes should be startsWith, so partial matches are letting too much through."] },
 
-{ id:"Q18", part:3, ask:"Clicking a card used to work. After the user types in the search box and the list re-renders, clicking a card does nothing. Why?", code:
-"document.querySelectorAll(\".card\").forEach(card => {\n  card.addEventListener(\"click\", onPick);\n});\n\n// later, on every keystroke:\nlist.innerHTML = renderCards(filtered);",
-  prose:true,
-  opts:[
-"Setting innerHTML throws away the old card elements and builds new ones. The listeners were attached to the elements that no longer exist.",
-"querySelectorAll returns a static list, so the loop never saw the cards that were added later.",
-"onPick has lost its this binding once the cards are re-created, so it silently does nothing.",
-"click events do not bubble out of a div, so the handler is never reached after a re-render."] },
+{ id:"Q18", part:3, prose:true, k:"1bba1410", ask:"Clicking a card used to work. After the user types in the search box and the list re-renders, clicking a card does nothing. Why?", code:
+"document.querySelectorAll(\".card\").forEach(card => {\n  card.addEventListener(\"click\", onPick);\n});\n\n// later, on every keystroke:\nlist.innerHTML = renderCards(filtered);", opts:["querySelectorAll returns a static list, so the loop never saw the cards that were added later.",
+  "onPick has lost its this binding once the cards are re-created, so it silently does nothing.",
+  "click events do not bubble out of a div, so the handler is never reached after a re-render.",
+  "Setting innerHTML throws away the old card elements and builds new ones. The listeners were attached to the elements that no longer exist."] },
 
-{ id:"Q19", part:3, ask:"The same page now holds ten thousand products. Filtering is correct, but typing in the search box lags badly. What is the first thing to look at?",
-  prose:true,
-  opts:[
-"How much DOM is rebuilt per keystroke. Every character re-creates thousands of elements, and that work — not the filtering — is what costs the time.",
-"The .filter() call. Scanning ten thousand objects on every keystroke is too slow and needs an index.",
-"The CSS grid. Laying out ten thousand cards forces the browser to recalculate the whole layout.",
-"Whether the cards have will-change: transform, which lets the browser move them on the GPU."] },
+{ id:"Q19", part:3, prose:true, k:"b65a6cfc", ask:"The same page now holds ten thousand products. Filtering is correct, but typing in the search box lags badly. What is the first thing to look at?", opts:["The CSS grid. Laying out ten thousand cards forces the browser to recalculate the whole layout.",
+  "The .filter() call. Scanning ten thousand objects on every keystroke is too slow and needs an index.",
+  "How much DOM is rebuilt per keystroke. Every character re-creates thousands of elements, and that work — not the filtering — is what costs the time.",
+  "Whether the cards have will-change: transform, which lets the browser move them on the GPU."] },
 
-{ id:"Q20", part:3, ask:"What does this print, and why?", code:
-"const list = [3, 1, 2];\n\nfunction sortAndReturn(arr) {\n  return arr.sort();\n}\n\nconst sorted = sortAndReturn(list);\nsorted.push(99);\nconsole.log(list.length, list === sorted);",
-  prose:true,
-  opts:[
-"4 true — sort works in place and returns the same array, so list and sorted are two names for one array.",
-"3 false — sort returns a new sorted array, so pushing to it leaves the original alone.",
-"4 false — the push reaches the original because arrays are passed by reference, but the two names are still different arrays.",
-"3 true — they are the same array, but push on a sorted copy does not change the length of the original."]}
+{ id:"Q20", part:3, prose:true, k:"abc01cab", ask:"What does this print, and why?", code:
+"const list = [3, 1, 2];\n\nfunction sortAndReturn(arr) {\n  return arr.sort();\n}\n\nconst sorted = sortAndReturn(list);\nsorted.push(99);\nconsole.log(list.length, list === sorted);", opts:["4 false — the push reaches the original because arrays are passed by reference, but the two names are still different arrays.",
+  "3 true — they are the same array, but push on a sorted copy does not change the length of the original.",
+  "4 true — sort works in place and returns the same array, so list and sorted are two names for one array.",
+  "3 false — sort returns a new sorted array, so pushing to it leaves the original alone."] }
 ];
 
-Q.forEach(function(q){ q.k = keyOf(q.id, q.opts[0]); });
+/* Keys are baked in above as hashes of the correct option, and the options
+   are stored already scrambled. Nothing in this file says which one is right. */
+
 
 var LSK = "ec-screen30-state-v1";
 var DURATION = 30*60*1000;

@@ -262,115 +262,117 @@ var PARTS = {
 };
 
 var Q = [
-{ id:"B1", part:1, core:true, ask:"What does this print?", code:
+{ id:"B1", part:1, core:true, k:"03434873", ask:"What does this print?", code:
 "original = {\"name\": \"Asha\", \"tags\": [\"a\"]}\ncopy = original.copy()\n\ncopy[\"name\"] = \"Ravi\"\ncopy[\"tags\"].append(\"b\")\n\nprint(original[\"name\"], len(original[\"tags\"]))", opts:["Asha 2",
-  "Asha 1",
+  "Ravi 1",
   "Ravi 2",
-  "Ravi 1"] },
+  "Asha 1"] },
 
-{ id:"B2", part:1, core:true, ask:"What do the two lines print?", code:
-"def add_item(item, basket=[]):\n    basket.append(item)\n    return basket\n\nprint(add_item(\"a\"))\nprint(add_item(\"b\"))", opts:["['a']\n['a', 'b']",
-  "['a']\n['b']",
+{ id:"B2", part:1, core:true, k:"aff53e93", ask:"What do the two lines print?", code:
+"def add_item(item, basket=[]):\n    basket.append(item)\n    return basket\n\nprint(add_item(\"a\"))\nprint(add_item(\"b\"))", opts:["['a']\n['b']",
+  "['a', 'b']\n['a', 'b']",
   "['a']\n['a']",
-  "['a', 'b']\n['a', 'b']"] },
+  "['a']\n['a', 'b']"] },
 
-{ id:"B3", part:1, ask:"What does this print?", code:
+{ id:"B3", part:1, k:"ec86bbb0", ask:"What does this print?", code:
 "print(10 % 3)\nprint(-10 % 3)\nprint(10 // 3)", opts:["1\n2\n3",
-  "1\n-1\n3",
   "1\n2\n3.3333333333333335",
+  "1\n-1\n3",
   "1\n-1\n3.3333333333333335"] },
 
-{ id:"B4", part:1, core:true, ask:"What does this print?", code:
-"user = {\"name\": \"Akshay\"}\n\nprint(user.get(\"age\"))\nprint(user.get(\"age\", 0))\nprint(user[\"age\"])", opts:["None\n0\nKeyError",
-  "None\n0\nNone",
-  "0\n0\nKeyError",
-  "KeyError on the first line"] },
+{ id:"B4", part:1, core:true, k:"73be4114", ask:"What does this print?", code:
+"user = {\"name\": \"Akshay\"}\n\nprint(user.get(\"age\"))\nprint(user.get(\"age\", 0))\nprint(user[\"age\"])", opts:["None\n0\nNone",
+  "KeyError on the first line",
+  "None\n0\nKeyError",
+  "0\n0\nKeyError"] },
 
-{ id:"B5", part:1, core:true, ask:"What does this print?", code:
+{ id:"B5", part:1, core:true, k:"9e2923db", ask:"What does this print?", code:
 "a = [1, 2]\nb = [1, 2]\n\nprint(a == b)\nprint(a is b)", opts:["True\nFalse",
-  "True\nTrue",
+  "False\nTrue",
   "False\nFalse",
-  "False\nTrue"] },
+  "True\nTrue"] },
 
-{ id:"B6", part:1, ask:"What does this print?", code:
-"nums = [10, 9, 1]\nresult = nums.sort()\n\nprint(result)\nprint(nums)", opts:["None\n[1, 9, 10]",
+{ id:"B6", part:1, k:"fe835e26", ask:"What does this print?", code:
+"nums = [10, 9, 1]\nresult = nums.sort()\n\nprint(result)\nprint(nums)", opts:["[1, 9, 10]\n[10, 9, 1]",
+  "None\n[10, 9, 1]",
   "[1, 9, 10]\n[1, 9, 10]",
-  "[1, 9, 10]\n[10, 9, 1]",
-  "None\n[10, 9, 1]"] },
+  "None\n[1, 9, 10]"] },
 
-{ id:"B7", part:1, ask:"What does this print?", code:
+{ id:"B7", part:1, k:"d7cd9116", ask:"What does this print?", code:
 "def get_price(data):\n    try:\n        return int(data[\"price\"])\n    except KeyError:\n        return 0\n\nprint(get_price({\"price\": \"50\"}))\nprint(get_price({}))\nprint(get_price({\"price\": \"abc\"}))", opts:["50\n0\nValueError",
-  "50\n0\n0",
   "50\n0\nNone",
+  "50\n0\n0",
   "50\nKeyError\nValueError"] },
 
-{ id:"C1", part:2, ask:"Which version of <span class=\"mono\">is_even(number)</span> returns <span class=\"mono\">True</span> for every even number and <span class=\"mono\">False</span> for every odd one?", opts:["def is_even(number):\n    return number % 2 == 0",
-  "def is_even(number):\n    if number % 2 == 0:\n        return True",
-  "def is_even(number):\n    return number / 2 == 0",
-  "def is_even(number):\n    return number % 2 != 0"] },
+{ id:"C1", part:2, k:"40bac695", ask:"Which version of <span class=\"mono\">is_even(number)</span> returns <span class=\"mono\">True</span> for every even number and <span class=\"mono\">False</span> for every odd one?", opts:["def is_even(number):\n    if number % 2 == 0:\n        return True",
+  "def is_even(number):\n    return number % 2 == 0",
+  "def is_even(number):\n    return number % 2 != 0",
+  "def is_even(number):\n    return number / 2 == 0"] },
 
-{ id:"C2", part:2, core:true, ask:"Which version of <span class=\"mono\">find_largest(numbers)</span> returns the largest number in the list?", opts:["def find_largest(numbers):\n    largest = numbers[0]\n    for n in numbers:\n        if n > largest:\n            largest = n\n    return largest",
-  "def find_largest(numbers):\n    largest = 0\n    for n in numbers:\n        if n > largest:\n            largest = n\n    return largest",
+{ id:"C2", part:2, core:true, k:"ce1be02b", ask:"Which version of <span class=\"mono\">find_largest(numbers)</span> returns the largest number in the list?", opts:["def find_largest(numbers):\n    largest = numbers[0]\n    for n in numbers:\n        if n > largest:\n            largest = n\n    return largest",
   "def find_largest(numbers):\n    numbers.sort()\n    return numbers[0]",
-  "def find_largest(numbers):\n    largest = numbers[0]\n    for n in numbers:\n        if n > largest:\n            return n\n    return largest"] },
+  "def find_largest(numbers):\n    largest = numbers[0]\n    for n in numbers:\n        if n > largest:\n            return n\n    return largest",
+  "def find_largest(numbers):\n    largest = 0\n    for n in numbers:\n        if n > largest:\n            largest = n\n    return largest"] },
 
-{ id:"C3", part:2, ask:"Which version of <span class=\"mono\">count_greater(numbers)</span> counts how many numbers are greater than 10?", opts:["def count_greater(numbers):\n    count = 0\n    for n in numbers:\n        if n > 10:\n            count += 1\n    return count",
-  "def count_greater(numbers):\n    count = 0\n    for n in numbers:\n        if n >= 10:\n            count += 1\n    return count",
+{ id:"C3", part:2, k:"bb2dd59c", ask:"Which version of <span class=\"mono\">count_greater(numbers)</span> counts how many numbers are greater than 10?", opts:["def count_greater(numbers):\n    count = 0\n    for n in numbers:\n        if n >= 10:\n            count += 1\n    return count",
   "def count_greater(numbers):\n    for n in numbers:\n        if n > 10:\n            return 1\n    return 0",
-  "def count_greater(numbers):\n    result = []\n    for n in numbers:\n        if n > 10:\n            result.append(n)\n    return result"] },
+  "def count_greater(numbers):\n    result = []\n    for n in numbers:\n        if n > 10:\n            result.append(n)\n    return result",
+  "def count_greater(numbers):\n    count = 0\n    for n in numbers:\n        if n > 10:\n            count += 1\n    return count"] },
 
-{ id:"C4", part:2, ask:"Which version of <span class=\"mono\">reverse_string(text)</span> returns the string reversed?", opts:["def reverse_string(text):\n    return text[::-1]",
+{ id:"C4", part:2, k:"4e9a6004", ask:"Which version of <span class=\"mono\">reverse_string(text)</span> returns the string reversed?", opts:["def reverse_string(text):\n    return text[::1]",
   "def reverse_string(text):\n    return reversed(text)",
-  "def reverse_string(text):\n    return text[::1]",
+  "def reverse_string(text):\n    return text[::-1]",
   "def reverse_string(text):\n    return text.reverse()"] },
 
-{ id:"C5", part:2, ask:"An API sometimes returns <span class=\"mono\">{\"user\": {\"email\": \"\u2026\"}}</span> and sometimes just <span class=\"mono\">{}</span>. Which version of <span class=\"mono\">get_email(data)</span> returns the email when it is there and <span class=\"mono\">None</span> when it is not, without crashing?", opts:["def get_email(data):\n    return data.get(\"user\", {}).get(\"email\")",
-  "def get_email(data):\n    return data.get(\"user\").get(\"email\")",
-  "def get_email(data):\n    return data[\"user\"][\"email\"]",
-  "def get_email(data):\n    return data.get(\"user.email\")"] },
+{ id:"C5", part:2, k:"d1dac951", ask:"An API sometimes returns <span class=\"mono\">{\"user\": {\"email\": \"…\"}}</span> and sometimes just <span class=\"mono\">{}</span>. Which version of <span class=\"mono\">get_email(data)</span> returns the email when it is there and <span class=\"mono\">None</span> when it is not, without crashing?", opts:["def get_email(data):\n    return data.get(\"user\").get(\"email\")",
+  "def get_email(data):\n    return data.get(\"user\", {}).get(\"email\")",
+  "def get_email(data):\n    return data.get(\"user.email\")",
+  "def get_email(data):\n    return data[\"user\"][\"email\"]"] },
 
-{ id:"S1", part:3, ask:"The <span class=\"mono\">users</span> table has columns <span class=\"mono\">id, name, age, city</span>. Which query returns every user older than 18?", opts:["SELECT * FROM users WHERE age > 18;",
+{ id:"S1", part:3, k:"358d9ef5", ask:"The <span class=\"mono\">users</span> table has columns <span class=\"mono\">id, name, age, city</span>. Which query returns every user older than 18?", opts:["SELECT age > 18 FROM users;",
+  "SELECT * FROM users WHERE age > 18;",
   "SELECT * FROM users HAVING age > 18;",
-  "SELECT * FROM users IF age > 18;",
-  "SELECT age > 18 FROM users;"] },
+  "SELECT * FROM users IF age > 18;"] },
 
-{ id:"S2", part:3, ask:"Which query returns the users who live in Pune?", opts:["SELECT * FROM users WHERE city = 'Pune';",
-  "SELECT * FROM users WHERE city = Pune;",
-  "SELECT * FROM users IF city = 'Pune';",
-  "SELECT city FROM users WHERE 'Pune';"] },
+{ id:"S2", part:3, k:"1b4fdf78", ask:"Which query returns the users who live in Pune?", opts:["SELECT * FROM users IF city = 'Pune';",
+  "SELECT city FROM users WHERE 'Pune';",
+  "SELECT * FROM users WHERE city = 'Pune';",
+  "SELECT * FROM users WHERE city = Pune;"] },
 
-{ id:"S3", part:3, ask:"Which query returns all users sorted from oldest to youngest?", opts:["SELECT * FROM users ORDER BY age DESC;",
-  "SELECT * FROM users ORDER BY age ASC;",
+{ id:"S3", part:3, k:"cf8435dd", ask:"Which query returns all users sorted from oldest to youngest?", opts:["SELECT * FROM users ORDER BY age ASC;",
+  "SELECT * FROM users GROUP BY age DESC;",
   "SELECT * FROM users SORT BY age DESC;",
-  "SELECT * FROM users GROUP BY age DESC;"] },
+  "SELECT * FROM users ORDER BY age DESC;"] },
 
-{ id:"S4", part:3, ask:"Which query answers 'how many users live in each city?'", opts:["SELECT city, COUNT(*) FROM users GROUP BY city;",
-  "SELECT city, COUNT(*) FROM users;",
+{ id:"S4", part:3, k:"7ba8853b", ask:"Which query answers 'how many users live in each city?'", opts:["SELECT city, COUNT(*) FROM users GROUP BY city;",
   "SELECT city, COUNT(*) FROM users GROUP BY id;",
+  "SELECT city, COUNT(*) FROM users;",
   "SELECT COUNT(city) FROM users GROUP BY city;"] },
 
-{ id:"F1", part:4, prose:true, ask:"You are designing the <span class=\"mono\">users</span> table. Which column makes the best primary key?", opts:["An id column the database generates, which is never reused even after a user is deleted.",
-  "The email address \u2014 every user has one and no two users share it.",
+{ id:"F1", part:4, prose:true, k:"ca6864ee", ask:"You are designing the <span class=\"mono\">users</span> table. Which column makes the best primary key?", opts:["An id column the database generates, which is never reused even after a user is deleted.",
   "The name and city together, since that combination is unlikely to repeat.",
-  "The row's position in the table, so the first user is 1, the second is 2, and so on."] },
+  "The row's position in the table, so the first user is 1, the second is 2, and so on.",
+  "The email address — every user has one and no two users share it."] },
 
-{ id:"F2", part:4, prose:true, ask:"Your API has <span class=\"mono\">GET /orders</span> and <span class=\"mono\">POST /orders</span>. A colleague adds <span class=\"mono\">GET /orders/delete?id=5</span> to remove an order. What is wrong with that?", opts:["GET is supposed only to read. Browsers, link previews and crawlers fetch URLs on their own, so something can delete an order without any person clicking anything.",
-  "Nothing is really wrong. It works, and the URL says plainly what it does.",
+{ id:"F2", part:4, prose:true, k:"5b4f3dcb", ask:"Your API has <span class=\"mono\">GET /orders</span> and <span class=\"mono\">POST /orders</span>. A colleague adds <span class=\"mono\">GET /orders/delete?id=5</span> to remove an order. What is wrong with that?", opts:["Nothing is really wrong. It works, and the URL says plainly what it does.",
   "The path should be /orders/5/delete to follow REST naming conventions properly.",
-  "DELETE requests cannot carry a query string, so a GET is the only way to pass the id."] },
+  "DELETE requests cannot carry a query string, so a GET is the only way to pass the id.",
+  "GET is supposed only to read. Browsers, link previews and crawlers fetch URLs on their own, so something can delete an order without any person clicking anything."] },
 
-{ id:"F3", part:4, prose:true, ask:"A client requests <span class=\"mono\">/api/users/9999</span> and no such user exists. What should the API send back?", opts:["404, with a short body saying which thing was not found.",
-  "200, with a body of {\"error\": \"user not found\"} \u2014 the request itself was handled fine.",
+{ id:"F3", part:4, prose:true, k:"86e79dd1", ask:"A client requests <span class=\"mono\">/api/users/9999</span> and no such user exists. What should the API send back?", opts:["404, with a short body saying which thing was not found.",
+  "200, with a body of {\"error\": \"user not found\"} — the request itself was handled fine.",
   "500, because looking up the user failed.",
   "400, because the client asked for something that is not there."] },
 
-{ id:"F4", part:4, prose:true, ask:"What does Git give you that keeping folders called <span class=\"mono\">project-final</span> and <span class=\"mono\">project-final-v2</span> does not?", opts:["A record of exactly what changed, when, and why \u2014 and the ability to undo one change without losing the others made since.",
+{ id:"F4", part:4, prose:true, k:"d14bbf37", ask:"What does Git give you that keeping folders called <span class=\"mono\">project-final</span> and <span class=\"mono\">project-final-v2</span> does not?", opts:["Automatic running of the code whenever a file is saved.",
+  "A record of exactly what changed, when, and why — and the ability to undo one change without losing the others made since.",
   "Somewhere safe on the internet to keep the code so it cannot be lost.",
-  "A way for two people to edit the same file at the same time without conflicts ever arising.",
-  "Automatic running of the code whenever a file is saved."] }
+  "A way for two people to edit the same file at the same time without conflicts ever arising."] }
 ];
 
-Q.forEach(function(q){ q.k = keyOf(q.id, q.opts[0]); });
+/* Keys are baked in above as hashes of the correct option, and the options
+   are stored already scrambled. Nothing in this file says which one is right. */
+
 
 var LSK = "ec-backend-state-v1";
 var DURATION = 40*60*1000;

@@ -262,108 +262,110 @@ var PARTS = {
 };
 
 var Q = [
-{ id:"U1", part:1, core:true, prose:true, ask:"Body text is set in #8A8A8A on #FFFFFF. The project is held to WCAG 2.1 AA. Which is correct?", opts:["It fails 1.4.3 \u2014 body text requires 4.5:1 and this is approximately 3.5:1",
-  "It passes, since it exceeds 3:1",
+{ id:"U1", part:1, core:true, prose:true, k:"f89862a6", ask:"Body text is set in #8A8A8A on #FFFFFF. The project is held to WCAG 2.1 AA. Which is correct?", opts:["It passes, since it exceeds 3:1",
   "It passes, since grey on white is always legible",
-  "Contrast rules only apply to text over images"] },
+  "Contrast rules only apply to text over images",
+  "It fails 1.4.3 — body text requires 4.5:1 and this is approximately 3.5:1"] },
 
-{ id:"U2", part:1, core:true, prose:true, ask:"A sign-up form uses placeholder text as the only label for each field. Which is correct?", opts:["It fails 3.3.2 \u2014 the label disappears as soon as the user types, exactly when it is needed",
+{ id:"U2", part:1, core:true, prose:true, k:"dab80326", ask:"A sign-up form uses placeholder text as the only label for each field. Which is correct?", opts:["It fails 3.3.2 — the label disappears as soon as the user types, exactly when it is needed",
   "Acceptable if the placeholder meets 4.5:1 contrast",
   "Acceptable because screen readers announce the placeholder",
   "Acceptable on mobile, where vertical space is constrained"] },
 
-{ id:"U3", part:1, prose:true, ask:"A mobile button has a 24 \u00d7 24 px tappable area. What is the primary concern?", opts:["The touch target is too small",
+{ id:"U3", part:1, prose:true, k:"6c7c54c0", ask:"A mobile button has a 24 × 24 px tappable area. What is the primary concern?", opts:["The button should use a larger font",
+  "The touch target is too small",
   "The button needs a stronger colour",
-  "The button should always be text-only",
-  "The button should use a larger font"] },
+  "The button should always be text-only"] },
 
-{ id:"U4", part:1, core:true, prose:true, ask:"A designer removes the browser's default focus outline because it clashes with the visual design. What is required?", opts:["Replace it with a custom focus indicator clearly visible against its background \u2014 removing it with no replacement fails 2.4.7",
-  "Nothing; focus outlines are a browser default, not a design concern",
-  "It is fine as long as hover states are clear",
-  "Remove it on desktop, keep it on mobile"] },
+{ id:"U4", part:1, core:true, prose:true, k:"d135f9d3", ask:"A designer removes the browser's default focus outline because it clashes with the visual design. What is required?", opts:["It is fine as long as hover states are clear",
+  "Remove it on desktop, keep it on mobile",
+  "Replace it with a custom focus indicator clearly visible against its background — removing it with no replacement fails 2.4.7",
+  "Nothing; focus outlines are a browser default, not a design concern"] },
 
-{ id:"U5", part:1, prose:true, ask:"A 14-field form fails on submit and shows one message at the top reading \"An error occurred.\" Which is correct?", opts:["It fails 3.3.1 \u2014 the error is not identified at the field that caused it \u2014 and 3.3.3, since no correction is suggested. Errors belong at field level, in text, programmatically associated, with input preserved",
-  "Acceptable as long as the message is red and carries an icon",
+{ id:"U5", part:1, prose:true, k:"b96a4438", ask:"A 14-field form fails on submit and shows one message at the top reading \"An error occurred.\" Which is correct?", opts:["Acceptable as long as the message is red and carries an icon",
+  "It should be a toast that disappears after three seconds",
   "Acceptable because the form is short enough to scan",
-  "It should be a toast that disappears after three seconds"] },
+  "It fails 3.3.1 — the error is not identified at the field that caused it — and 3.3.3, since no correction is suggested. Errors belong at field level, in text, programmatically associated, with input preserved"] },
 
-{ id:"U6", part:2, core:true, prose:true, ask:"You are designing a data table in a dashboard. Which set of states is complete?", opts:["Empty, loading, error, partial/permission-limited, success \u2014 with first-run-empty designed separately from filtered-to-empty",
+{ id:"U6", part:2, core:true, prose:true, k:"7acf4c77", ask:"You are designing a data table in a dashboard. Which set of states is complete?", opts:["Empty, loading, error, partial/permission-limited, success — with first-run-empty designed separately from filtered-to-empty",
   "Loading, success, error",
   "Success and error",
   "Success only; the rest are engineering concerns"] },
 
-{ id:"U7", part:2, prose:true, ask:"A project list has no rows to show. What should the screen display?", opts:["It depends why it is empty. A first-run empty state teaches and offers the primary action; a filtered-to-empty state names the filter and offers to clear it. They are different screens",
+{ id:"U7", part:2, prose:true, k:"72ab46db", ask:"A project list has no rows to show. What should the screen display?", opts:["The table headers with no rows beneath",
+  "It depends why it is empty. A first-run empty state teaches and offers the primary action; a filtered-to-empty state names the filter and offers to clear it. They are different screens",
   "An illustration and the words \"Nothing here yet\"",
-  "Nothing; a blank area is self-explanatory",
-  "The table headers with no rows beneath"] },
+  "Nothing; a blank area is self-explanatory"] },
 
-{ id:"U8", part:2, prose:true, ask:"A user can select 50 records and permanently delete them. What is the right pattern?", opts:["Type-to-confirm for irreversible bulk deletion; undo wherever the action is reversible; confirmation dialogs used sparingly so they retain meaning",
-  "A confirmation modal on every delete, everywhere",
-  "Making the button red is sufficient signal",
-  "Restricting delete to administrators"] },
+{ id:"U8", part:2, prose:true, k:"75562189", ask:"A user can select 50 records and permanently delete them. What is the right pattern?", opts:["Making the button red is sufficient signal",
+  "Restricting delete to administrators",
+  "Type-to-confirm for irreversible bulk deletion; undo wherever the action is reversible; confirmation dialogs used sparingly so they retain meaning",
+  "A confirmation modal on every delete, everywhere"] },
 
-{ id:"U9", part:2, prose:true, ask:"A dashboard card is clickable across its whole surface, but nothing indicates this. Which is correct?", opts:["It needs a visible affordance, and the interactive element must be a real link or button \u2014 a click handler on a non-interactive element is not keyboard-reachable and fails 2.1.1",
-  "Fine; users have learned that cards are clickable",
+{ id:"U9", part:2, prose:true, k:"c96c6ea1", ask:"A dashboard card is clickable across its whole surface, but nothing indicates this. Which is correct?", opts:["Fine; users have learned that cards are clickable",
+  "Add a small \"Click here\" label in the corner",
   "Add cursor: pointer",
-  "Add a small \"Click here\" label in the corner"] },
+  "It needs a visible affordance, and the interactive element must be a real link or button — a click handler on a non-interactive element is not keyboard-reachable and fails 2.1.1"] },
 
-{ id:"U10", part:2, prose:true, ask:"A data table scrolls horizontally inside its own container at a 320 px viewport width. The contract specifies WCAG 2.1 AA. Which is correct?", opts:["1.4.10 Reflow permits horizontal scrolling for content requiring two-dimensional layout, and data tables qualify \u2014 it passes, provided the page body itself does not scroll horizontally",
-  "It fails; nothing may scroll horizontally at 320 px",
+{ id:"U10", part:2, prose:true, k:"2fc47e53", ask:"A data table scrolls horizontally inside its own container at a 320 px viewport width. The contract specifies WCAG 2.1 AA. Which is correct?", opts:["It fails; nothing may scroll horizontally at 320 px",
   "It passes because tables are exempt from WCAG",
-  "Reflow only applies to mobile devices, not a zoomed desktop browser"] },
+  "Reflow only applies to mobile devices, not a zoomed desktop browser",
+  "1.4.10 Reflow permits horizontal scrolling for content requiring two-dimensional layout, and data tables qualify — it passes, provided the page body itself does not scroll horizontally"] },
 
-{ id:"U11", part:3, prose:true, ask:"A card contains five text elements, all 16 px, all the same weight, differentiated only by colour. Which is correct?", opts:["Hierarchy is carried entirely by colour; it needs contrast in size, weight and spacing, and currently disappears for colour-blind users and in greyscale",
-  "Fine \u2014 colour is the strongest hierarchy cue available",
-  "Fix it by making the important elements bold",
+{ id:"U11", part:3, prose:true, k:"0895f13b", ask:"A card contains five text elements, all 16 px, all the same weight, differentiated only by colour. Which is correct?", opts:["Fix it by making the important elements bold",
+  "Fine — colour is the strongest hierarchy cue available",
+  "Hierarchy is carried entirely by colour; it needs contrast in size, weight and spacing, and currently disappears for colour-blind users and in greyscale",
   "Fix it by adding a border around each element"] },
 
-{ id:"U12", part:3, prose:true, ask:"A product's main navigation has 11 top-level items. What should you do first?", opts:["Run a card sort to find how users actually group the content, then a tree test to measure whether the resulting structure is findable",
-  "Reduce it to seven, because of Miller's 7\u00b12",
-  "Add a mega-menu so all 11 remain visible",
-  "Alphabetise them"] },
+{ id:"U12", part:3, prose:true, k:"0548721e", ask:"A product's main navigation has 11 top-level items. What should you do first?", opts:["Reduce it to seven, because of Miller's 7±2",
+  "Run a card sort to find how users actually group the content, then a tree test to measure whether the resulting structure is findable",
+  "Alphabetise them",
+  "Add a mega-menu so all 11 remain visible"] },
 
-{ id:"U13", part:3, prose:true, ask:"A stakeholder says \"our users want dark mode.\" What is the right first move?", opts:["Ask what evidence that is based on. If there is none, treat it as a hypothesis and check it against support tickets, analytics and existing research before it becomes a requirement",
-  "Build it \u2014 the stakeholder knows the users",
+{ id:"U13", part:3, prose:true, k:"ff4357f7", ask:"A stakeholder says \"our users want dark mode.\" What is the right first move?", opts:["Ask what evidence that is based on. If there is none, treat it as a hypothesis and check it against support tickets, analytics and existing research before it becomes a requirement",
   "Run a survey asking users whether they want dark mode",
-  "Decline; dark mode is a preference, not a need"] },
+  "Decline; dark mode is a preference, not a need",
+  "Build it — the stakeholder knows the users"] },
 
-{ id:"U14", part:3, prose:true, ask:"You need to test whether users can complete a four-step form, including validation errors, using a screen reader. What do you build?", opts:["A coded HTML prototype \u2014 real focus order, real validation, real announcements. A Figma prototype can produce none of them",
-  "A Figma prototype with linked frames for each error case",
+{ id:"U14", part:3, prose:true, k:"8f726874", ask:"You need to test whether users can complete a four-step form, including validation errors, using a screen reader. What do you build?", opts:["A Figma prototype with linked frames for each error case",
   "A high-fidelity static mockup with annotations",
-  "Either will do; fidelity does not change what you learn"] },
+  "Either will do; fidelity does not change what you learn",
+  "A coded HTML prototype — real focus order, real validation, real announcements. A Figma prototype can produce none of them"] },
 
-{ id:"U15", part:3, prose:true, ask:"You have five participants and three hours. What produces the most useful result?", opts:["Moderated sessions with task-based prompts \u2014 \"buy the cheapest option that arrives before Friday\" \u2014 observing what they do rather than what they say",
+{ id:"U15", part:3, prose:true, k:"9cc885cb", ask:"You have five participants and three hours. What produces the most useful result?", opts:["Moderated sessions with task-based prompts — \"buy the cheapest option that arrives before Friday\" — observing what they do rather than what they say",
   "Ask each participant which of two designs they prefer",
   "Recruit 30 participants for statistical significance",
   "Walk each participant through the design, explaining how it works"] },
 
-{ id:"U16", part:4, prose:true, ask:"Your system defines blue-600. A primary button uses it, a text link uses it, and a selected-row background uses it. The brand blue is changing. What is the right structure?", opts:["Add a semantic layer \u2014 action-primary, link-default, surface-selected \u2014 each mapped to blue-600, then change the mapping in one place",
-  "Find and replace blue-600 everywhere",
-  "Create blue-600-button, blue-600-link, blue-600-row",
-  "Keep one token; a system means one value"] },
+{ id:"U16", part:4, prose:true, k:"30a8903f", ask:"Your system defines blue-600. A primary button uses it, a text link uses it, and a selected-row background uses it. The brand blue is changing. What is the right structure?", opts:["Find and replace blue-600 everywhere",
+  "Add a semantic layer — action-primary, link-default, surface-selected — each mapped to blue-600, then change the mapping in one place",
+  "Keep one token; a system means one value",
+  "Create blue-600-button, blue-600-link, blue-600-row"] },
 
-{ id:"U17", part:4, prose:true, ask:"A button needs 3 sizes, 4 styles, an optional icon, and disabled and loading states. What belongs in the component?", opts:["One component with properties for size, style, icon and state \u2014 every combination shares the same anatomy and behaviour",
-  "24 separate components, one per combination",
+{ id:"U17", part:4, prose:true, k:"8401d6bf", ask:"A button needs 3 sizes, 4 styles, an optional icon, and disabled and loading states. What belongs in the component?", opts:["One component with properties for size, style, icon and state — every combination shares the same anatomy and behaviour",
   "One component per style, with sizes as separate components",
-  "One component, detached everywhere so designers can edit freely"] },
+  "One component, detached everywhere so designers can edit freely",
+  "24 separate components, one per combination"] },
 
-{ id:"U18", part:4, prose:true, ask:"Which of these does a developer most need from a handoff, and is most often missing?", opts:["The behaviour the design does not show \u2014 what happens at 320 px, what the empty and error states say, which values are tokens and which are one-offs, and what the component does while waiting",
-  "Precise pixel measurements of every element",
+{ id:"U18", part:4, prose:true, k:"a7ee1829", ask:"Which of these does a developer most need from a handoff, and is most often missing?", opts:["Precise pixel measurements of every element",
   "High-resolution exports of every screen",
-  "A written description of the visual style"] },
+  "A written description of the visual style",
+  "The behaviour the design does not show — what happens at 320 px, what the empty and error states say, which values are tokens and which are one-offs, and what the component does while waiting"] },
 
-{ id:"U19", part:4, prose:true, ask:"A designer asks to add a one-off promotional banner to the shared component library. What is the right response?", opts:["Keep it out until something needs it a second time. A shared library's real cost is maintenance, and single-use components are paid for by everyone, forever",
+{ id:"U19", part:4, prose:true, k:"332c92e7", ask:"A designer asks to add a one-off promotional banner to the shared component library. What is the right response?", opts:["Keep it out until something needs it a second time. A shared library's real cost is maintenance, and single-use components are paid for by everyone, forever",
   "Add it; a larger library is a more complete system",
   "Refuse permanently; libraries should hold only primitives",
   "Add it, but mark it deprecated"] },
 
-{ id:"U20", part:4, core:true, prose:true, ask:"Claude returns a settings page: clean layout, sensible grouping, plausible copy \u2014 but hand-typed hex values, its own type scale, and only the default state. What is the primary problem?", opts:["The prompt did not carry the design system or the required state list. This is the designer's failure, not the model's \u2014 re-prompt with tokens and states supplied, then audit for zero hand-typed values",
-  "The model is not capable of following a design system",
-  "The layout should be discarded and redesigned",
-  "Nothing; hand-typed values can be cleaned up later"] }
+{ id:"U20", part:4, core:true, prose:true, k:"0fdb2daa", ask:"Claude returns a settings page: clean layout, sensible grouping, plausible copy — but hand-typed hex values, its own type scale, and only the default state. What is the primary problem?", opts:["The layout should be discarded and redesigned",
+  "Nothing; hand-typed values can be cleaned up later",
+  "The prompt did not carry the design system or the required state list. This is the designer's failure, not the model's — re-prompt with tokens and states supplied, then audit for zero hand-typed values",
+  "The model is not capable of following a design system"] }
 ];
 
-Q.forEach(function(q){ q.k = keyOf(q.id, q.opts[0]); });
+/* Keys are baked in above as hashes of the correct option, and the options
+   are stored already scrambled. Nothing in this file says which one is right. */
+
 
 var LSK = "ec-uiux-state-v1";
 var DURATION = 40*60*1000;
