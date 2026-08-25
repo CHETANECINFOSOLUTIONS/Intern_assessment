@@ -1,0 +1,12 @@
+# Vercel
+.vercel
+
+# macOS
+.DS_Store
+
+# Never commit these — see README
+*Answer Key*
+*Marking Desk*
+*answer-key*
+*marking-desk*
+*.ectest.txt

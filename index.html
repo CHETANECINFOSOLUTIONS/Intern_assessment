@@ -1,0 +1,86 @@
+<!doctype html>
+<title>Entrance Test</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=Newsreader:opsz,wght@6..72,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--paper:#f4f5f2;--surface:#fbfbf9;--ink:#15191a;--ink-2:#3d4644;--muted:#6e7873;
+      --rule:#d8dcd3;--accent:#10534b;--shadow:0 1px 2px rgba(21,25,26,.05);}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#101312;--surface:#171b1a;--ink:#e7eae5;--ink-2:#b6beb9;--muted:#848d88;
+  --rule:#2b312e;--accent:#63c4b2;--shadow:0 1px 2px rgba(0,0,0,.3);}}
+:root[data-theme="dark"]{--paper:#101312;--surface:#171b1a;--ink:#e7eae5;--ink-2:#b6beb9;
+  --muted:#848d88;--rule:#2b312e;--accent:#63c4b2;--shadow:0 1px 2px rgba(0,0,0,.3);}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);margin:0;min-height:100vh;
+  display:grid;place-items:center;padding:32px;
+  font-family:"Newsreader",Georgia,serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.box{max-width:36rem;text-align:center}
+h1{font-family:"Archivo",system-ui,sans-serif;font-weight:700;font-size:clamp(26px,4.5vw,38px);
+  letter-spacing:-.028em;line-height:1.1;margin:0 0 14px;text-wrap:balance}
+p{margin:0 0 1em;color:var(--ink-2)}
+.eyebrow{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:11px;letter-spacing:.19em;
+  text-transform:uppercase;color:var(--muted);display:block;margin-bottom:14px}
+.card{background:var(--surface);border:1px solid var(--rule);box-shadow:var(--shadow);
+  padding:26px 28px;margin-top:8px;text-align:left}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:13px}
+a{color:var(--accent);text-underline-offset:3px}
+.spin{width:22px;height:22px;border:2px solid var(--rule);border-top-color:var(--accent);
+  border-radius:50%;margin:0 auto 18px;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.spin{animation:none}}
+</style>
+
+<div class="box">
+  <div id="going">
+    <div class="spin" aria-hidden="true"></div>
+    <span class="eyebrow">Entrance test</span>
+    <h1>Opening your test&hellip;</h1>
+    <p>If nothing happens in a few seconds, <a id="manual" href="#">tap here</a>.</p>
+  </div>
+
+  <div id="stuck" hidden>
+    <span class="eyebrow">Entrance test</span>
+    <h1>This link is missing something</h1>
+    <div class="card">
+      <p>The link you followed does not say which test to open, so we cannot start the right one for you.</p>
+      <p style="margin-bottom:0">Please go back to the email we sent and use the full link from there. It ends with something like <span class="mono">?track=frontend</span>. If you cannot find it, reply to that email and we will send it again.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  /* Add a line here to add a test. The key is what goes in ?track= */
+  var TRACKS = {
+    frontend: "frontend.html",
+    backend:  "backend.html",
+    design:   "design.html",
+    uiux:     "design.html",
+    ux:       "design.html"
+  };
+
+  function requested(){
+    var p = new URLSearchParams(window.location.search);
+    var raw = p.get("track") || p.get("t") || "";
+    return String(raw).trim().toLowerCase();
+  }
+
+  var key = requested();
+  var target = Object.prototype.hasOwnProperty.call(TRACKS, key) ? TRACKS[key] : null;
+
+  if(target){
+    var href = target + window.location.hash;
+    document.getElementById("manual").setAttribute("href", href);
+    /* replace() so Back does not bounce the candidate through here again */
+    window.location.replace(href);
+  } else {
+    document.getElementById("going").hidden = true;
+    document.getElementById("stuck").hidden = false;
+  }
+})();
+</script>

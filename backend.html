@@ -1,0 +1,750 @@
+<title>The Backend Screen</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600&family=JetBrains+Mono:wght@400;500;700&display=swap">
+
+<style>
+:root{
+  --paper:#f4f5f2; --surface:#fbfbf9; --surface-2:#ebeee8;
+  --ink:#15191a; --ink-2:#3d4644; --muted:#6e7873; --rule:#d8dcd3;
+  --accent:#10534b; --accent-soft:#dce9e5;
+  --signal:#94400f; --signal-soft:#f3e4d9;
+  --stamp-bg:#15191a; --stamp-fg:#f4f5f2;
+  --shadow:0 1px 2px rgba(21,25,26,.05);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#101312; --surface:#171b1a; --surface-2:#202523;
+    --ink:#e7eae5; --ink-2:#b6beb9; --muted:#848d88; --rule:#2b312e;
+    --accent:#63c4b2; --accent-soft:#16302c;
+    --signal:#e29760; --signal-soft:#2f2119;
+    --stamp-bg:#e7eae5; --stamp-fg:#101312;
+    --shadow:0 1px 2px rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#101312; --surface:#171b1a; --surface-2:#202523;
+  --ink:#e7eae5; --ink-2:#b6beb9; --muted:#848d88; --rule:#2b312e;
+  --accent:#63c4b2; --accent-soft:#16302c;
+  --signal:#e29760; --signal-soft:#2f2119;
+  --stamp-bg:#e7eae5; --stamp-fg:#101312;
+  --shadow:0 1px 2px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);margin:0;padding:0;
+  font-family:"Newsreader",Georgia,"Times New Roman",serif;font-size:17px;line-height:1.6;
+  -webkit-font-smoothing:antialiased}
+p{margin:0 0 1em}
+h1,h2,h3{font-family:"Archivo",system-ui,sans-serif;text-wrap:balance;margin:0}
+h1{font-size:clamp(32px,5.5vw,54px);font-weight:700;letter-spacing:-.028em;line-height:1.04}
+h2{font-size:clamp(20px,2.8vw,26px);font-weight:600;letter-spacing:-.018em;line-height:1.15}
+h3{font-size:17px;font-weight:600;letter-spacing:-.008em}
+.mono,pre,code{font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,monospace;
+  font-variant-ligatures:none;font-feature-settings:"liga" 0,"calt" 0}
+.eyebrow{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.19em;
+  text-transform:uppercase;color:var(--muted);font-weight:500}
+.lede{font-size:clamp(18px,2.1vw,20.5px);line-height:1.5;color:var(--ink-2);max-width:38em}
+
+.bar{position:sticky;top:0;z-index:40;background:var(--stamp-bg);color:var(--stamp-fg);
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:10px clamp(16px,3.5vw,36px)}
+.bar .brand{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.2em;
+  text-transform:uppercase;opacity:.66}
+.bar .where{font-family:"Archivo",sans-serif;font-weight:600;font-size:14px;letter-spacing:-.01em}
+.bar .spacer{flex:1 1 auto}
+.track{flex:0 1 220px;height:4px;background:rgba(128,128,128,.32);position:relative;min-width:90px}
+.track i{position:absolute;inset:0 auto 0 0;background:var(--stamp-fg);width:0;transition:width .25s ease}
+@media (prefers-reduced-motion:reduce){.track i{transition:none}}
+.clock{font-family:"JetBrains Mono",monospace;font-size:14px;font-weight:700;
+  font-variant-numeric:tabular-nums}
+.clock.warn{color:#f0a35f}
+.clock.crit{color:#ff8b6b}
+
+.shell{max-width:820px;margin:0 auto;padding:0 clamp(16px,4vw,36px) 110px}
+.screen{display:none;padding-top:clamp(26px,4.5vw,50px)}
+.screen.on{display:block}
+
+.factbar{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));
+  border-top:2px solid var(--ink);border-bottom:1px solid var(--rule);margin:24px 0 28px}
+.fact{padding:14px 16px 14px 0;border-right:1px solid var(--rule)}
+.fact:last-child{border-right:0}
+.fact b{display:block;font-family:"Archivo",sans-serif;font-weight:700;font-size:23px;
+  letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.1}
+.fact span{display:block;font-family:"JetBrains Mono",monospace;font-size:10px;
+  letter-spacing:.11em;text-transform:uppercase;color:var(--muted);margin-top:5px}
+.rules{background:var(--surface);border:1px solid var(--rule);padding:20px 22px;
+  box-shadow:var(--shadow);margin:0 0 22px}
+.rules ul{padding-left:19px;margin:0}
+.rules li{margin-bottom:8px}
+.rules li:last-child{margin-bottom:0}
+.rules .tag{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--signal);display:block;margin-bottom:10px;font-weight:500}
+
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.field label{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--muted);font-weight:500}
+input[type=text],input[type=email]{font-family:"Newsreader",serif;font-size:17px;padding:10px 12px;
+  background:var(--surface);color:var(--ink);border:1px solid var(--rule);border-radius:0}
+input:focus-visible,button:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0 18px}
+
+button{font-family:"Archivo",sans-serif;font-weight:600;font-size:14.5px;padding:11px 20px;
+  border:1px solid var(--ink);background:var(--ink);color:var(--paper);cursor:pointer;border-radius:0}
+button:hover{opacity:.86}
+button:disabled{opacity:.38;cursor:not-allowed}
+button.ghost{background:transparent;color:var(--ink);border-color:var(--rule)}
+button.ghost:hover{border-color:var(--ink);opacity:1}
+.actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:24px;
+  padding-top:18px;border-top:1px solid var(--rule)}
+.actions .note{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted)}
+
+.qcard{border:1px solid var(--rule);background:var(--surface);box-shadow:var(--shadow)}
+.qhd{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 14px;padding:12px 20px;
+  border-bottom:1px solid var(--rule);background:var(--surface-2)}
+.qhd .n{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;
+  letter-spacing:.12em;color:var(--accent)}
+.qhd h3{flex:1 1 160px}
+.qhd .meta{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted);
+  font-variant-numeric:tabular-nums}
+.qbd{padding:20px 22px 22px}
+.qbd > p:first-child{margin-top:0}
+pre{background:var(--surface-2);border:1px solid var(--rule);padding:13px 15px;overflow-x:auto;
+  margin:0 0 16px;font-size:13.5px;line-height:1.62;color:var(--ink)}
+code{font-size:.88em}
+
+.opts{display:flex;flex-direction:column;border-top:1px solid var(--rule)}
+.opt{display:flex;gap:12px;align-items:flex-start;padding:13px 4px;text-align:left;
+  border:0;border-bottom:1px solid var(--rule);cursor:pointer;background:none;color:var(--ink);
+  font-family:inherit;font-size:inherit;font-weight:400}
+.opt:hover{background:var(--surface-2);opacity:1}
+.opt .mark{flex:0 0 auto;width:22px;height:22px;border:1px solid var(--ink-2);border-radius:50%;
+  display:grid;place-items:center;margin-top:1px;
+  font-family:"JetBrains Mono",monospace;font-size:10.5px;font-weight:700;color:var(--ink-2)}
+.opt[aria-checked=true]{background:var(--accent-soft)}
+.opt[aria-checked=true] .mark{background:var(--accent);border-color:var(--accent);color:var(--paper)}
+.opt .body{flex:1 1 auto;min-width:0;font-family:"JetBrains Mono",monospace;font-size:13px;
+  line-height:1.62;white-space:pre-wrap;overflow-wrap:anywhere;color:var(--ink)}
+.opt .body.prose{font-family:"Newsreader",serif;font-size:16.5px;line-height:1.55;white-space:normal}
+
+.partline{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:0 0 16px;
+  padding-bottom:8px;border-bottom:2px solid var(--ink)}
+.partline h2{flex:1 1 auto}
+.partline .m{font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--muted)}
+
+.done-mark{width:54px;height:54px;border:2px solid var(--accent);border-radius:50%;
+  display:grid;place-items:center;color:var(--accent);font-size:26px;margin-bottom:20px}
+textarea{width:100%;height:140px;background:var(--surface-2);color:var(--ink);
+  border:1px solid var(--rule);padding:12px 14px;font-size:11.5px;line-height:1.55;
+  resize:vertical;border-radius:0;word-break:break-all;
+  font-family:"JetBrains Mono",ui-monospace,monospace}
+.hint{font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--muted);margin:8px 0 0}
+@media (prefers-reduced-motion:no-preference){
+  .screen.on{animation:fade .26s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+}
+</style>
+
+<div class="bar">
+  <span class="brand">Entry Screen</span>
+  <span class="where" id="where">Instructions</span>
+  <span class="spacer"></span>
+  <span class="track" id="track" aria-hidden="true"><i id="trackfill"></i></span>
+  <span class="clock" id="clock">40:00</span>
+</div>
+
+<div class="shell">
+
+<div class="screen on" id="s-intro">
+  <span class="eyebrow">Frontend Internship &middot; Applicant Screen</span>
+  <h1 style="margin:14px 0 18px">The Backend Screen</h1>
+  <p class="lede">Twenty questions on Python, SQL, and how the pieces of a backend fit together. Not framework knowledge, not anything you are expected to have learnt yet &mdash; just the fundamentals, and whether you can read code and say what it does.</p>
+
+  <div class="factbar">
+    <div class="fact"><b>40</b><span>Minutes</span></div>
+    <div class="fact"><b>20</b><span>Questions</span></div>
+    <div class="fact"><b>100</b><span>Points</span></div>
+    <div class="fact"><b>1</b><span>Attempt</span></div>
+  </div>
+
+  <div class="rules">
+    <span class="tag">Read before you start</span>
+    <ul>
+      <li>The clock starts when you press <b>Begin</b> and does not stop. At zero, whatever you have is submitted.</li>
+      <li>One question at a time, <b>no going back</b>. Choose an answer and move on.</li>
+      <li>Every question has exactly one right answer. There is no negative marking, so never leave one blank.</li>
+      <li>Roughly two minutes a question. If one is taking much longer than that, pick your best guess and keep moving.</li>
+      <li>Do not run the code or the queries anywhere. Read them.</li>
+      <li>Your progress saves in this browser. If the tab crashes, reopen this file and you will be offered your place back.</li>
+      <li>No score is shown to you at the end. You will get a result code to send back.</li>
+    </ul>
+  </div>
+
+  <div class="rules" style="border-color:var(--signal);background:var(--signal-soft)">
+    <span class="tag">On using AI</span>
+    <p style="margin:0">You will be allowed to use AI heavily once the internship starts &mdash; that is the whole design of the programme. This half hour is the one place we need to see what is yours. Every question here is answerable by a chatbot in two seconds, so passing that way is easy and pointless: week one is unassisted, and the gap shows immediately. Answer it yourself and let us place you correctly.</p>
+  </div>
+
+  <div class="two">
+    <div class="field"><label for="f-name">Full name</label><input type="text" id="f-name" autocomplete="name"></div>
+    <div class="field"><label for="f-mail">Email</label><input type="email" id="f-mail" autocomplete="email"></div>
+  </div>
+
+  <div class="actions">
+    <button id="btn-begin">Begin &mdash; start the clock</button>
+    <button class="ghost" id="btn-resume" style="display:none">Resume where I left off</button>
+    <span class="note" id="resume-note"></span>
+  </div>
+</div>
+
+<div class="screen" id="s-q">
+  <div id="part-head"></div>
+  <div id="q-mount"></div>
+  <div class="actions">
+    <button id="q-next">Next question</button>
+    <span class="note" id="q-note">No going back after this.</span>
+  </div>
+</div>
+
+<div class="screen" id="s-done">
+  <div class="done-mark" aria-hidden="true">&#10003;</div>
+  <span class="eyebrow">Submitted</span>
+  <h1 style="margin:14px 0 18px">Thank you &mdash; that is everything.</h1>
+  <p class="lede">Your paper has been marked automatically. The result is in the code below. We are not showing you the score, so please do not read anything into how long the code is or how fast it appeared.</p>
+
+  <div class="rules" id="send-box" style="display:none">
+    <span class="tag" id="send-tag">Sending</span>
+    <p id="send-msg" style="margin:0">Sending your result to us&hellip;</p>
+    <p id="send-more" style="margin:12px 0 0;display:none"><a href="#" id="send-reveal">Show the result code anyway</a></p>
+  </div>
+
+  <div class="rules" id="manual-box">
+    <span class="tag">One last step &mdash; please do this now</span>
+    <p><b>Send this result code back to us.</b> Download the file and attach it to your reply, or copy the code and paste it into the body of your email. Either is fine; the file is easier.</p>
+    <div class="actions" style="margin-top:0;padding-top:0;border-top:0">
+      <button id="btn-dl">Download result file</button>
+      <button class="ghost" id="btn-copy">Copy code</button>
+      <span class="note" id="dl-note"></span>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="out-code">Result code</label>
+    <textarea id="out-code" readonly></textarea>
+  </div>
+  <p class="hint">If the download did not work, select all of the text above and copy it. Keep this tab open until you have sent it.</p>
+</div>
+
+</div>
+
+<script>
+(function(){
+"use strict";
+
+var SALT = "ec-backend-2026-v1|";
+function h(s){
+  var x = 0x811c9dc5;
+  for(var i=0;i<s.length;i++){ x ^= s.charCodeAt(i); x = Math.imul(x, 0x01000193) >>> 0; }
+  return ("0000000" + x.toString(16)).slice(-8);
+}
+function keyOf(id, text){ return h(SALT + id + "|" + text); }
+
+/* Authoring convention: opts[0] is the correct answer. The key is hashed from it
+   at load, then the array is permuted, so nothing in the shipped page says which
+   option is right. */
+
+var PARTS = {
+ 1:{ title:"Predict the output", sub:"Say exactly what each snippet prints, in order." },
+ 2:{ title:"Pick the code that works", sub:"One of the four does exactly what is asked. The other three each carry a specific bug." },
+ 3:{ title:"SQL", sub:"The users table has columns id, name, age and city." },
+ 4:{ title:"How a backend fits together", sub:"Judgement, not definitions." }
+};
+
+var Q = [
+{ id:"B1", part:1, core:true, ask:"What does this print?", code:
+"original = {\"name\": \"Asha\", \"tags\": [\"a\"]}\ncopy = original.copy()\n\ncopy[\"name\"] = \"Ravi\"\ncopy[\"tags\"].append(\"b\")\n\nprint(original[\"name\"], len(original[\"tags\"]))", opts:["Asha 2",
+  "Asha 1",
+  "Ravi 2",
+  "Ravi 1"] },
+
+{ id:"B2", part:1, core:true, ask:"What do the two lines print?", code:
+"def add_item(item, basket=[]):\n    basket.append(item)\n    return basket\n\nprint(add_item(\"a\"))\nprint(add_item(\"b\"))", opts:["['a']\n['a', 'b']",
+  "['a']\n['b']",
+  "['a']\n['a']",
+  "['a', 'b']\n['a', 'b']"] },
+
+{ id:"B3", part:1, ask:"What does this print?", code:
+"print(10 % 3)\nprint(-10 % 3)\nprint(10 // 3)", opts:["1\n2\n3",
+  "1\n-1\n3",
+  "1\n2\n3.3333333333333335",
+  "1\n-1\n3.3333333333333335"] },
+
+{ id:"B4", part:1, core:true, ask:"What does this print?", code:
+"user = {\"name\": \"Akshay\"}\n\nprint(user.get(\"age\"))\nprint(user.get(\"age\", 0))\nprint(user[\"age\"])", opts:["None\n0\nKeyError",
+  "None\n0\nNone",
+  "0\n0\nKeyError",
+  "KeyError on the first line"] },
+
+{ id:"B5", part:1, core:true, ask:"What does this print?", code:
+"a = [1, 2]\nb = [1, 2]\n\nprint(a == b)\nprint(a is b)", opts:["True\nFalse",
+  "True\nTrue",
+  "False\nFalse",
+  "False\nTrue"] },
+
+{ id:"B6", part:1, ask:"What does this print?", code:
+"nums = [10, 9, 1]\nresult = nums.sort()\n\nprint(result)\nprint(nums)", opts:["None\n[1, 9, 10]",
+  "[1, 9, 10]\n[1, 9, 10]",
+  "[1, 9, 10]\n[10, 9, 1]",
+  "None\n[10, 9, 1]"] },
+
+{ id:"B7", part:1, ask:"What does this print?", code:
+"def get_price(data):\n    try:\n        return int(data[\"price\"])\n    except KeyError:\n        return 0\n\nprint(get_price({\"price\": \"50\"}))\nprint(get_price({}))\nprint(get_price({\"price\": \"abc\"}))", opts:["50\n0\nValueError",
+  "50\n0\n0",
+  "50\n0\nNone",
+  "50\nKeyError\nValueError"] },
+
+{ id:"C1", part:2, ask:"Which version of <span class=\"mono\">is_even(number)</span> returns <span class=\"mono\">True</span> for every even number and <span class=\"mono\">False</span> for every odd one?", opts:["def is_even(number):\n    return number % 2 == 0",
+  "def is_even(number):\n    if number % 2 == 0:\n        return True",
+  "def is_even(number):\n    return number / 2 == 0",
+  "def is_even(number):\n    return number % 2 != 0"] },
+
+{ id:"C2", part:2, core:true, ask:"Which version of <span class=\"mono\">find_largest(numbers)</span> returns the largest number in the list?", opts:["def find_largest(numbers):\n    largest = numbers[0]\n    for n in numbers:\n        if n > largest:\n            largest = n\n    return largest",
+  "def find_largest(numbers):\n    largest = 0\n    for n in numbers:\n        if n > largest:\n            largest = n\n    return largest",
+  "def find_largest(numbers):\n    numbers.sort()\n    return numbers[0]",
+  "def find_largest(numbers):\n    largest = numbers[0]\n    for n in numbers:\n        if n > largest:\n            return n\n    return largest"] },
+
+{ id:"C3", part:2, ask:"Which version of <span class=\"mono\">count_greater(numbers)</span> counts how many numbers are greater than 10?", opts:["def count_greater(numbers):\n    count = 0\n    for n in numbers:\n        if n > 10:\n            count += 1\n    return count",
+  "def count_greater(numbers):\n    count = 0\n    for n in numbers:\n        if n >= 10:\n            count += 1\n    return count",
+  "def count_greater(numbers):\n    for n in numbers:\n        if n > 10:\n            return 1\n    return 0",
+  "def count_greater(numbers):\n    result = []\n    for n in numbers:\n        if n > 10:\n            result.append(n)\n    return result"] },
+
+{ id:"C4", part:2, ask:"Which version of <span class=\"mono\">reverse_string(text)</span> returns the string reversed?", opts:["def reverse_string(text):\n    return text[::-1]",
+  "def reverse_string(text):\n    return reversed(text)",
+  "def reverse_string(text):\n    return text[::1]",
+  "def reverse_string(text):\n    return text.reverse()"] },
+
+{ id:"C5", part:2, ask:"An API sometimes returns <span class=\"mono\">{\"user\": {\"email\": \"\u2026\"}}</span> and sometimes just <span class=\"mono\">{}</span>. Which version of <span class=\"mono\">get_email(data)</span> returns the email when it is there and <span class=\"mono\">None</span> when it is not, without crashing?", opts:["def get_email(data):\n    return data.get(\"user\", {}).get(\"email\")",
+  "def get_email(data):\n    return data.get(\"user\").get(\"email\")",
+  "def get_email(data):\n    return data[\"user\"][\"email\"]",
+  "def get_email(data):\n    return data.get(\"user.email\")"] },
+
+{ id:"S1", part:3, ask:"The <span class=\"mono\">users</span> table has columns <span class=\"mono\">id, name, age, city</span>. Which query returns every user older than 18?", opts:["SELECT * FROM users WHERE age > 18;",
+  "SELECT * FROM users HAVING age > 18;",
+  "SELECT * FROM users IF age > 18;",
+  "SELECT age > 18 FROM users;"] },
+
+{ id:"S2", part:3, ask:"Which query returns the users who live in Pune?", opts:["SELECT * FROM users WHERE city = 'Pune';",
+  "SELECT * FROM users WHERE city = Pune;",
+  "SELECT * FROM users IF city = 'Pune';",
+  "SELECT city FROM users WHERE 'Pune';"] },
+
+{ id:"S3", part:3, ask:"Which query returns all users sorted from oldest to youngest?", opts:["SELECT * FROM users ORDER BY age DESC;",
+  "SELECT * FROM users ORDER BY age ASC;",
+  "SELECT * FROM users SORT BY age DESC;",
+  "SELECT * FROM users GROUP BY age DESC;"] },
+
+{ id:"S4", part:3, ask:"Which query answers 'how many users live in each city?'", opts:["SELECT city, COUNT(*) FROM users GROUP BY city;",
+  "SELECT city, COUNT(*) FROM users;",
+  "SELECT city, COUNT(*) FROM users GROUP BY id;",
+  "SELECT COUNT(city) FROM users GROUP BY city;"] },
+
+{ id:"F1", part:4, prose:true, ask:"You are designing the <span class=\"mono\">users</span> table. Which column makes the best primary key?", opts:["An id column the database generates, which is never reused even after a user is deleted.",
+  "The email address \u2014 every user has one and no two users share it.",
+  "The name and city together, since that combination is unlikely to repeat.",
+  "The row's position in the table, so the first user is 1, the second is 2, and so on."] },
+
+{ id:"F2", part:4, prose:true, ask:"Your API has <span class=\"mono\">GET /orders</span> and <span class=\"mono\">POST /orders</span>. A colleague adds <span class=\"mono\">GET /orders/delete?id=5</span> to remove an order. What is wrong with that?", opts:["GET is supposed only to read. Browsers, link previews and crawlers fetch URLs on their own, so something can delete an order without any person clicking anything.",
+  "Nothing is really wrong. It works, and the URL says plainly what it does.",
+  "The path should be /orders/5/delete to follow REST naming conventions properly.",
+  "DELETE requests cannot carry a query string, so a GET is the only way to pass the id."] },
+
+{ id:"F3", part:4, prose:true, ask:"A client requests <span class=\"mono\">/api/users/9999</span> and no such user exists. What should the API send back?", opts:["404, with a short body saying which thing was not found.",
+  "200, with a body of {\"error\": \"user not found\"} \u2014 the request itself was handled fine.",
+  "500, because looking up the user failed.",
+  "400, because the client asked for something that is not there."] },
+
+{ id:"F4", part:4, prose:true, ask:"What does Git give you that keeping folders called <span class=\"mono\">project-final</span> and <span class=\"mono\">project-final-v2</span> does not?", opts:["A record of exactly what changed, when, and why \u2014 and the ability to undo one change without losing the others made since.",
+  "Somewhere safe on the internet to keep the code so it cannot be lost.",
+  "A way for two people to edit the same file at the same time without conflicts ever arising.",
+  "Automatic running of the code whenever a file is saved."] }
+];
+
+Q.forEach(function(q){ q.k = keyOf(q.id, q.opts[0]); });
+
+var LSK = "ec-backend-state-v1";
+var DURATION = 40*60*1000;
+var TOTAL_Q = Q.length;
+var PER_Q = 100 / TOTAL_Q;
+
+var S = { name:"", email:"", startedAt:0, idx:0, a:{}, aTime:{},
+          blurCount:0, blurMs:0, finished:false, code:"" };
+function save(){ try{ localStorage.setItem(LSK, JSON.stringify(S)); }catch(e){} }
+function load(){ try{ var r=localStorage.getItem(LSK); return r?JSON.parse(r):null; }catch(e){ return null; } }
+
+var $ = function(id){ return document.getElementById(id); };
+function el(tag, cls, html){ var e=document.createElement(tag); if(cls) e.className=cls; if(html!=null) e.innerHTML=html; return e; }
+function esc(s){ return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function now(){ return Date.now(); }
+
+var tMark = now(), tKey = null;
+function markStart(k){ tKey = k; tMark = now(); }
+function markEnd(){ if(!tKey) return; S.aTime[tKey] = (S.aTime[tKey]||0) + (now()-tMark); tKey = null; }
+
+function shuffle(arr, seedStr){
+  var seed = 0;
+  for(var i=0;i<seedStr.length;i++){ seed = (seed*31 + seedStr.charCodeAt(i))>>>0; }
+  var a = arr.slice();
+  for(var j=a.length-1;j>0;j--){
+    seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
+    var k = seed % (j+1);
+    var t=a[j]; a[j]=a[k]; a[k]=t;
+  }
+  return a;
+}
+Q.forEach(function(q){ q.opts = shuffle(q.opts, q.id + "|perm"); });
+
+function show(name){
+  ["intro","q","done"].forEach(function(n){ var e=$("s-"+n); if(e) e.classList.toggle("on", n===name); });
+  $("where").textContent = name==="q" ? ("Question " + (S.idx+1) + " of " + TOTAL_Q)
+                          : (name==="done" ? "Submitted" : "Instructions");
+  window.scrollTo({top:0, behavior:"instant"});
+}
+function paintTrack(){
+  var done = S.finished ? TOTAL_Q : S.idx;
+  $("trackfill").style.width = Math.round((done/TOTAL_Q)*100) + "%";
+}
+
+var tick = null;
+function startClock(){ if(tick) clearInterval(tick); tick = setInterval(paintClock, 1000); paintClock(); }
+function remaining(){ return Math.max(0, S.startedAt + DURATION - now()); }
+function paintClock(){
+  var r = remaining(), m = Math.floor(r/60000), s = Math.floor((r%60000)/1000);
+  var c = $("clock");
+  c.textContent = (m<10?"0":"")+m+":"+(s<10?"0":"")+s;
+  c.className = "clock" + (r<3*60000 ? " crit" : (r<8*60000 ? " warn" : ""));
+  if(r<=0 && !S.finished) finish(true);
+}
+
+function render(){
+  var q = Q[S.idx];
+  var ph = $("part-head");
+  var prev = S.idx>0 ? Q[S.idx-1] : null;
+  if(!prev || prev.part !== q.part){
+    var p = PARTS[q.part];
+    ph.innerHTML = '<div class="partline"><h2>Part ' + q.part + ' &mdash; ' + esc(p.title) + '</h2>' +
+                   '<span class="m">' + esc(p.sub) + '</span></div>';
+    ph.style.display = "";
+  } else { ph.style.display = "none"; }
+
+  var mount = $("q-mount"); mount.innerHTML = "";
+  var card = el("div","qcard");
+  var hd = el("div","qhd");
+  hd.appendChild(el("span","n", q.id));
+  hd.appendChild(el("h3", null, "Question " + (S.idx+1)));
+  hd.appendChild(el("span","meta", (S.idx+1) + " of " + TOTAL_Q + " &middot; 5 pts"));
+  card.appendChild(hd);
+
+  var bd = el("div","qbd");
+  bd.appendChild(el("p", null, q.ask));
+  if(q.code) bd.appendChild(el("pre", null, esc(q.code)));
+
+  var opts = el("div","opts");
+  q.opts.forEach(function(text, n){
+    var b = el("button","opt");
+    b.type = "button"; b.setAttribute("role","radio");
+    b.setAttribute("aria-checked", String(S.a[q.id] === text));
+    b.appendChild(el("span","mark", "ABCD".charAt(n)));
+    b.appendChild(el("span", "body" + (q.prose ? " prose" : ""), esc(text)));
+    b.addEventListener("click", function(){
+      S.a[q.id] = text; save();
+      Array.prototype.forEach.call(opts.children, function(c){ c.setAttribute("aria-checked","false"); });
+      b.setAttribute("aria-checked","true");
+      $("q-next").disabled = false;
+    });
+    opts.appendChild(b);
+  });
+  bd.appendChild(opts);
+  card.appendChild(bd);
+  mount.appendChild(card);
+
+  $("q-next").disabled = !S.a[q.id];
+  $("q-next").textContent = S.idx === TOTAL_Q-1 ? "Submit and finish" : "Next question";
+  $("q-note").textContent = S.idx === TOTAL_Q-1
+    ? "This is final. Nothing can be changed after it."
+    : "No going back after this.";
+  paintTrack();
+  markStart(q.id);
+}
+
+$("q-next").addEventListener("click", function(){
+  markEnd();
+  if(S.idx < TOTAL_Q-1){
+    S.idx++; save();
+    show("q"); render();
+  } else {
+    if(confirm("Submit now? This cannot be undone and there is no going back.")) finish(false);
+    else markStart(Q[S.idx].id);
+  }
+});
+
+function mark(){
+  var rows = [], pts = 0;
+  Q.forEach(function(q){
+    var pick = S.a[q.id] || null;
+    var ok = pick != null && keyOf(q.id, pick) === q.k;
+    if(ok) pts += PER_Q;
+    rows.push({q:q.id, part:q.part, pick:pick, ok:ok, ms:S.aTime[q.id]||0});
+  });
+  return {rows:rows, points:Math.round(pts*10)/10};
+}
+function band(pct){
+  if(pct>=80) return "strong-hire";
+  if(pct>=70) return "hire";
+  if(pct>=55) return "borderline";
+  return "no";
+}
+
+function finish(auto){
+  if(S.finished) return;
+  S.finished = true; markEnd(); save();
+  if(tick) clearInterval(tick);
+  $("q-next").disabled = true;
+  paintTrack();
+  show("done");
+  $("out-code").value = "Marking… do not close this tab.";
+
+  var m = mark();
+  var pct = Math.round(m.points*10)/10;
+  var flags = [];
+  var coreWrong = m.rows.filter(function(r){
+    var q = Q.filter(function(x){ return x.id===r.q; })[0];
+    return q && q.core && !r.ok;
+  }).length;
+  if(coreWrong >= 4) flags.push("four-or-more-core-questions-wrong");
+  var partPts = {1:0,2:0,3:0,4:0}, partMax = {1:0,2:0,3:0,4:0};
+  m.rows.forEach(function(r){ partMax[r.part] += PER_Q; if(r.ok) partPts[r.part] += PER_Q; });
+  if(partPts[3] === 0) flags.push("no-sql-at-all");
+  if(auto) flags.push("time-expired-auto-submitted");
+  var unanswered = m.rows.filter(function(r){ return r.pick==null; }).length;
+  if(unanswered >= 3) flags.push("three-or-more-left-blank");
+  if(S.blurCount >= 8 || S.blurMs > 3*60000) flags.push("substantial-time-off-tab");
+  var fast = m.rows.filter(function(r){ return r.ms>0 && r.ms<6000; }).length;
+  if(fast >= 12) flags.push("answered-unusually-fast");
+
+  var payload = {
+    v:2, test:"ec-backend-40",
+    name:S.name, email:S.email,
+    startedAt:S.startedAt, submittedAt:now(),
+    durationSec: Math.round((now()-S.startedAt)/1000),
+    autoSubmitted: !!auto,
+    a:m.rows,
+    parts:[1,2,3,4].map(function(n){
+      return {part:n, title:PARTS[n].title,
+              got:Math.round(partPts[n]*10)/10, max:Math.round(partMax[n]*10)/10};
+    }),
+    total:m.points, max:100, pct:pct, band:band(pct),
+    unanswered:unanswered, flags:flags,
+    blurCount:S.blurCount, blurMs:S.blurMs,
+    ua: navigator.userAgent, screenW: window.screen ? window.screen.width : 0
+  };
+  encode(payload).then(function(code){
+    S.code = code; save();
+    $("out-code").value = code;
+    showSendState(code, payload);
+  });
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   WHERE RESULTS GO
+
+   Leave this empty and the test behaves as a self-contained file: the
+   candidate is shown a result code and a download button, and emails it back.
+
+   Paste a collection URL here (see SETUP-collection.md) and the page will
+   post the result there instead, so nothing depends on the candidate
+   remembering to send anything. If the post fails, it falls back to the
+   code-and-download screen on its own — a result is never lost.
+   ══════════════════════════════════════════════════════════════════════ */
+var COLLECT_URL = "https://script.google.com/macros/s/AKfycbysD4JiVIiqgW8_OcO1QKgAYzKm_ryq3U8-qrS5oSOc0KEQvrc2VDJZvk22LR7I2gfA/exec";
+
+function sendResult(code, p){
+  if(!COLLECT_URL) return Promise.resolve({ok:false, why:"not-configured"});
+
+  var body = JSON.stringify({
+    code: code, name: p.name || "", email: p.email || "",
+    test: p.test || "", total: p.total, pct: p.pct,
+    band: p.band || "", flags: (p.flags||[]).join(" "),
+    durationSec: p.durationSec || 0,
+    autoSubmitted: p.autoSubmitted ? "yes" : "no"
+  });
+
+  /* text/plain keeps this a "simple" request, so the browser sends it straight
+     through without a preflight the collector would have to answer. */
+  var call = fetch(COLLECT_URL, {
+    method: "POST",
+    headers: {"Content-Type": "text/plain;charset=utf-8"},
+    body: body,
+    redirect: "follow"
+  }).then(function(r){
+    return r.text().then(function(t){ return {status:r.status, text:t}; });
+  }).then(function(res){
+    var ok = false;
+    try{ ok = JSON.parse(res.text).ok === true; }
+    catch(e){ ok = res.status >= 200 && res.status < 300 && /\bok\b/i.test(res.text); }
+    return {ok:ok, why: ok ? "" : ("collector replied: " + String(res.text).slice(0,160))};
+  }).catch(function(err){
+    return {ok:false, why: "could not reach the collector — " + String((err && err.message) || err)};
+  });
+
+  var timeout = new Promise(function(resolve){
+    setTimeout(function(){ resolve({ok:false, why:"the collector did not answer within 20 seconds"}); }, 20000);
+  });
+  return Promise.race([call, timeout]);
+}
+
+function showSendState(code, p){
+  var box = $("send-box"), manual = $("manual-box");
+  if(!COLLECT_URL){ box.style.display = "none"; manual.style.display = ""; return; }
+  box.style.display = ""; manual.style.display = "none";
+  sendResult(code, p).then(function(res){
+    if(res.ok){
+      $("send-tag").textContent = "Received";
+      $("send-msg").innerHTML = "<b>Your result has reached us.</b> There is nothing else to do &mdash; you can close this tab.";
+      $("send-more").style.display = "";
+    } else {
+      $("send-tag").textContent = "Could not send";
+      $("send-msg").innerHTML = "<b>We could not deliver your result automatically.</b> Nothing is lost &mdash; please send it to us using the buttons below.";
+      manual.style.display = "";
+      /* Left in the page, not shown to the candidate: whoever set this up can
+         read the real reason in the console. */
+      if(window.console && console.warn) console.warn("[entry test] delivery failed: " + res.why);
+    }
+  });
+}
+
+function b64(bytes){
+  var s = "", chunk = 0x8000;
+  for(var i=0;i<bytes.length;i+=chunk){ s += String.fromCharCode.apply(null, bytes.subarray(i, i+chunk)); }
+  return btoa(s);
+}
+function encode(obj){
+  var bytes = new TextEncoder().encode(JSON.stringify(obj));
+  if(typeof CompressionStream === "function"){
+    try{
+      var cs = new CompressionStream("gzip");
+      var w = cs.writable.getWriter(); w.write(bytes); w.close();
+      return new Response(cs.readable).arrayBuffer().then(function(buf){
+        return "ECZ1." + b64(new Uint8Array(buf));
+      }).catch(function(){ return "ECP1." + b64(bytes); });
+    }catch(e){}
+  }
+  return Promise.resolve("ECP1." + b64(bytes));
+}
+
+var reveal = $("send-reveal");
+if(reveal) reveal.addEventListener("click", function(e){
+  e.preventDefault();
+  $("manual-box").style.display = "";
+  $("send-more").style.display = "none";
+});
+
+$("btn-copy").addEventListener("click", function(){
+  var ta = $("out-code");
+  ta.select(); ta.setSelectionRange(0, 999999);
+  var ok = false;
+  try{ ok = document.execCommand("copy"); }catch(e){}
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(ta.value).then(
+      function(){ $("dl-note").textContent = "Copied."; },
+      function(){ $("dl-note").textContent = ok ? "Copied." : "Copy failed — select the text and copy it manually."; });
+  } else {
+    $("dl-note").textContent = ok ? "Copied." : "Select the text below and copy it manually.";
+  }
+});
+$("btn-dl").addEventListener("click", function(){
+  var safe = (S.name||"candidate").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"") || "candidate";
+  var filename = "result-" + safe + ".ectest.txt";
+  var data = $("out-code").value;
+  var note = $("dl-note");
+  if(!data || data.indexOf("EC")!==0){ note.textContent = "The result is still being prepared — try again in a moment."; return; }
+
+  function saveLocally(){
+    /* Works when the file is opened directly or served from any host. */
+    try{
+      var blob = new Blob([data], {type:"text/plain;charset=utf-8"});
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url; a.download = filename; a.style.display = "none";
+      document.body.appendChild(a); a.click();
+      setTimeout(function(){ try{ document.body.removeChild(a); URL.revokeObjectURL(url); }catch(e){} }, 2000);
+      note.textContent = "Saved as " + filename + " — please attach it to your reply.";
+    }catch(err){
+      note.textContent = "The download did not work in this browser. Copy the code instead.";
+    }
+  }
+
+  /* Inside the Claude artifact viewer a plain download is blocked, so ask the
+     host to save the file; anywhere else, fall straight through to the blob. */
+  if(window.claude && typeof window.claude.use === "function"){
+    note.textContent = "Preparing the file…";
+    window.claude.use("downloads").then(function(d){
+      if(!d){ saveLocally(); return; }
+      d.save({filename:filename, data:data}).then(
+        function(){ note.textContent = "Saved as " + filename + " — please attach it to your reply."; },
+        function(){ note.textContent = "The save was cancelled. Press it again, or copy the code instead."; });
+    }, function(){ saveLocally(); });
+  } else {
+    saveLocally();
+  }
+});
+
+var awaySince = 0;
+window.addEventListener("blur", function(){
+  if(S.finished || !S.startedAt) return;
+  awaySince = now(); S.blurCount++; save();
+});
+window.addEventListener("focus", function(){
+  if(!awaySince) return;
+  S.blurMs += now() - awaySince; awaySince = 0; save();
+});
+document.addEventListener("visibilitychange", function(){
+  if(S.finished || !S.startedAt) return;
+  if(document.hidden){ if(!awaySince){ awaySince = now(); S.blurCount++; } }
+  else if(awaySince){ S.blurMs += now() - awaySince; awaySince = 0; }
+  save();
+});
+window.addEventListener("beforeunload", function(e){
+  if(S.startedAt && !S.finished){ e.preventDefault(); e.returnValue = ""; }
+});
+
+$("btn-begin").addEventListener("click", function(){
+  var n = $("f-name").value.trim(), m = $("f-mail").value.trim();
+  if(!n || !m){ $("resume-note").textContent = "Both your name and email are needed."; return; }
+  S.name = n; S.email = m; S.startedAt = now(); save();
+  startClock(); show("q"); render();
+});
+
+(function boot(){
+  var prev = load();
+  if(prev && prev.startedAt && !prev.finished && (prev.startedAt + DURATION - now()) > 0){
+    $("btn-resume").style.display = "";
+    $("resume-note").textContent = Math.floor((prev.startedAt + DURATION - now())/60000) +
+      " min left · " + (prev.name||"unnamed") + " · on question " + ((prev.idx||0)+1);
+    $("f-name").value = prev.name||""; $("f-mail").value = prev.email||"";
+    $("btn-resume").addEventListener("click", function(){
+      S = prev; startClock(); show("q"); render();
+    });
+  } else if(prev && prev.finished && prev.code){
+    $("btn-resume").style.display = "";
+    $("btn-resume").textContent = "Show my result code again";
+    $("resume-note").textContent = "You have already submitted.";
+    $("btn-resume").addEventListener("click", function(){
+      S = prev; show("done"); $("out-code").value = prev.code;
+    });
+  }
+  paintTrack();
+})();
+
+})();
+</script>
